@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Inventory{% endblock %}
+{% block content %}
+  <h2>Inventario</h2>
+  
+  <!-- Barra de búsqueda -->
+  <form method="GET" action="{{ url_for('inventory') }}" class="mb-3">
+    <div class="input-group">
+      <input type="text" name="query" class="form-control" placeholder="Search..." value="{{ query }}">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+      </div>
+    </div>
+  </form>
+  
+  <h3>Categorias</h3>
+  <ul class="list-group">
+    {% for category in categories %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <a href="{{ url_for('category', category_id=category.id) }}">{{ category.name }}</a>
+        <div>
+          <a href="{{ url_for('edit_category', category_id=category.id) }}" class="btn btn-warning btn-sm">Editar</a>
+          <a href="{{ url_for('delete_category', category_id=category.id) }}" class="btn btn-danger btn-sm">Borrar</a>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+  
+  <h3>Articulos</h3>
+  <ul class="list-group">
+    {% for item in items %}
+      <li class="list-group-item">
+        {{ item.name }} - {{ item.quantity }} - ${{ item.price }}
+        <a href="{{ url_for('edit_item', item_id=item.id) }}" class="btn btn-warning btn-sm float-right ml-2">Editar</a>
+        <a href="{{ url_for('delete_item', item_id=item.id) }}" class="btn btn-danger btn-sm float-right">Borrar</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
+
